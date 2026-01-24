@@ -1,0 +1,97 @@
+# ---------------------------------------
+# Build system configuration (PEP 517/518)
+# ---------------------------------------
+[build-system]
+# Tools needed to *build* the package
+requires = ["setuptools>=68", "wheel"]
+
+# Backend responsible for building wheels / sdists
+build-backend = "setuptools.build_meta"
+
+
+# ---------------------------------------
+# Project metadata (PEP 621)
+# ---------------------------------------
+[project]
+# Package name (what users would `pip install`)
+name = "algorithms"
+
+# Project version
+version = "0.1.0"
+
+# Short description shown on PyPI / in metadata
+description = "Algorithm implementations and experiments."
+
+# README file used as the long description
+readme = "README.md"
+
+# Minimum Python version this project supports
+requires-python = ">=3.12"
+
+# Runtime dependencies (empty for now)
+dependencies = []
+
+
+# ---------------------------------------
+# setuptools configuration
+# ---------------------------------------
+[tool.setuptools]
+# Tell setuptools that packages live under `src/`
+# This enables the "src-layout" pattern
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+# Where setuptools should search for packages
+where = ["src"]
+
+
+# ---------------------------------------
+# Ruff configuration (linting & formatting)
+# ---------------------------------------
+[tool.ruff]
+# Maximum line length for formatting and lint rules
+line-length = 100
+
+# Target Python version for Ruff's rules and formatting
+target-version = "py312"
+
+
+# ---------------------------------------
+# mypy configuration (static typing)
+# ---------------------------------------
+[tool.mypy]
+# Python version used for type-checking semantics
+python_version = "3.12"
+
+# Where mypy should look for your source code
+mypy_path = "src"
+
+# Type-check functions even if they lack annotations
+check_untyped_defs = true
+
+# Warn when `# type: ignore` is unnecessary
+warn_unused_ignores = true
+
+# Warn about pointless casts
+warn_redundant_casts = true
+
+# Warn when a function returns `Any`
+warn_return_any = true
+
+# Disallow implicit Optional[T] (forces explicit `Optional[...]`)
+no_implicit_optional = true
+
+
+# ---------------------------------------
+# pytest configuration
+# ---------------------------------------
+[tool.pytest.ini_options]
+# Where pytest should look for tests
+testpaths = ["tests"]
+
+# Add `src/` to PYTHONPATH so imports work naturally
+pythonpath = ["src"]
+
+# Extra pytest flags:
+#  -r a  -> show extra summary info for all test outcomes
+addopts = "-ra"
