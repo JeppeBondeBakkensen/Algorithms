@@ -6,8 +6,12 @@ on:
   # Run on every push to main
   push:
     branches: [main]
-  # Run on every pull request targeting main (and other branches)
+  # Run on every pull request targeting main
   pull_request:
+    branches: [main]
+  # Allow manual trigger from Actions tab (useful for debugging)
+  workflow_dispatch:
+
 jobs:
   # One job called "test" (it can do linting, typing, tests, etc.)
   test:
@@ -24,6 +28,11 @@ jobs:
       matrix:
         # Only run on Python 3.12 for now
         python-version: ["3.12"]
+
+    # Set default shell for all run steps (no need to repeat in each step)
+    defaults:
+      run:
+        shell: bash -l {0}
 
     steps:
       # Step 1: fetch your repository contents into the runner
@@ -55,10 +64,11 @@ jobs:
           # Python version for this matrix run
           python-version: ${{ matrix.python-version }}
 
+          # Cache conda packages for faster subsequent runs
+          use-mamba: true
+
       # Step 3: print useful info to the logs (helps debug environment issues)
-      # Note: bash -l {0} ensures the conda environment is properly activated
       - name: Show environment info
-        shell: bash -l {0}
         run: |
           python --version
           which python
@@ -67,21 +77,26 @@ jobs:
 
       # Step 4: lint (Ruff checks for code issues, import order, etc.)
       - name: Ruff (lint)
-        shell: bash -l {0}
         run: ruff check .
 
       # Step 5: verify formatting (fails if formatting differs)
       - name: Ruff (format check)
-        shell: bash -l {0}
         run: ruff format --check .
 
       # Step 6: static type checking (fails if typing errors exist)
       # Assumes your code lives in src/
       - name: Mypy (type check)
-        shell: bash -l {0}
         run: mypy src
 
-      # Step 7: run tests (quiet mode)
+      # Step 7: run tests with coverage
       - name: Pytest
-        shell: bash -l {0}
-        run: pytest -q
+        run: pytest --cov=algorithms --cov-report=term-missing --cov-report=xml
+
+      # Step 8: upload coverage report (optional - view on GitHub)
+      - name: Upload coverage to Codecov (optional)
+        if: matrix.python-version == '3.12'
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage.xml
+          fail_ci_if_error: false
+        continue-on-error: true

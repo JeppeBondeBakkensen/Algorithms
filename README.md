@@ -12,7 +12,7 @@ pytest -q
 
 ## Project layout
 
-```
+```text
 src/algorithms/    # library code
 tests/             # tests
 ```
