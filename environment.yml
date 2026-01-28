@@ -6,3 +6,4 @@ dependencies:
   - ruff
   - mypy
   - pytest
+  - pytest-cov

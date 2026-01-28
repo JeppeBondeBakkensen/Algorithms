@@ -88,6 +88,10 @@ jobs:
       - name: Mypy (type check)
         run: mypy src
 
+      # Step 6.5: install pytest-cov so --cov flags are recognized
+      - name: Install pytest-cov
+        run: python -m pip install pytest-cov
+
       # Step 7: run tests with coverage
       - name: Pytest
         run: pytest --cov=algorithms --cov-report=term-missing --cov-report=xml
