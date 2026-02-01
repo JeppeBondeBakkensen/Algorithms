@@ -1,15 +1,12 @@
-import pytest
+from algorithms.core import bubble_sort, insertion_sort
 
-from algorithms.core import fib
-
-
-def test_fib_small() -> None:
-    assert fib(0) == 0
-    assert fib(1) == 1
-    assert fib(2) == 1
-    assert fib(5) == 5
+# Small example test array
+A = [5, 2, 4, 6, 1, 3]
 
 
-def test_fib_rejects_negative() -> None:
-    with pytest.raises(ValueError):
-        fib(-1)
+def test_insertion_sort_small() -> None:
+    assert insertion_sort(A, len(A)) == [1, 2, 3, 4, 5, 6]
+
+
+def test_bubble_sort_small() -> None:
+    assert bubble_sort(A, len(A)) == [1, 2, 3, 4, 5, 6]

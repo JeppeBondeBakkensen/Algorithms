@@ -38,31 +38,112 @@ where = ["src"]
 # Ruff configuration (linting & formatting)
 # ---------------------------------------
 [tool.ruff]
+# Shared settings for both `ruff check` and `ruff format`.
+# The formatter wraps lines based on `line-length`.
 line-length = 100
+# Keep in sync with `requires-python`; influences fixes and formatting.
 target-version = "py312"
 
+# Formatter settings (run with `ruff format`).
+# Ruff uses sensible defaults; add overrides here if needed.
+[tool.ruff.format]
+
 [tool.ruff.lint]
+# Linting rules (run with `ruff check`).
+# `preview = true` allows preview rules to be selected explicitly.
+preview = true
 select = [
-    "E",   # pycodestyle errors
-    "F",   # Pyflakes
-    "W",   # pycodestyle warnings
-    "I",   # isort (import sorting)
-    "UP",  # pyupgrade (modern Python syntax)
-    "RUF", # Ruff-specific rules
-    "PLE", # Pylint errors
-    "PLR", # Pylint refactor
-    "PLW", # Pylint warnings
+    # Pycodestyle / Pyflakes
+    "E",
+    "W",
+    "F",
+
+    # Modernization & correctness
+    "UP",
+    "YTT",
+    "INP",
+
+    # Imports
+    "I",
+    "TID253",
+
+    # Logging, strings, testing, numpy
+    "G",
+    "ISC",
+    "PT025",
+    "NPY",
+
+    # Pylint-derived rules
+    "PLE",
+    "PLR",
+    "PLC",
+    "PLW",
+
+    # Docstring style (Google convention subset)
+    "D214",
+    "D300",
+    "D402",
+    "D403",
+    "D405",
+    "D410",
+    "D411",
+    "D412",
+    "D413",
+    "D414",
+    "D416",
+    "D417",
+    "D418",
+    "D419",
+
+    # Typing / typing-only imports
+    "TC",
+    "PYI",
+
+    # Ruff-specific rules
+    "RUF",
+
+    # Explicit preview rules (opt-in while in preview)
+    "RUF027",
+    "PYI059",
 ]
 
 ignore = [
-    "E501",    # Line too long (handled by formatter)
-    "PLR0913", # Too many arguments
+    # Conflicts with formatter or preferred style
+    "E501",   # line length handled by formatter
+    "W191",   # tabs handled by formatter
+    "E111",
+    "E114",
+    "E117",
+    "D206",
+    "D300",
+    "Q000",
+    "Q001",
+    "Q002",
+    "Q003",
+    "COM812",
+    "COM819",
+    "ISC002",
+    "D413",
+    # Project-specific relaxations
+    "PLC1901",
+    "PLR0913",
+    "PLR0917",
+    "INP001",
     "PLR2004",
+    "PLR6104",
 ]
 
 [tool.ruff.lint.isort]
+# Import sorting configuration
 known-first-party = ["algorithms"]
 
+[tool.ruff.lint.pydocstyle]
+# Docstring convention for D* rules
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+# Relax lint rules in tests
+"tests/*" = ["PLC2701", "PLR0914"]
 
 # ---------------------------------------
 # mypy configuration (static typing)

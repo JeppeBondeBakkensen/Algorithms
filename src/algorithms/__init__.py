@@ -1,3 +1,3 @@
-from .core import fib
+from .core import insertion_sort
 
-__all__ = ["fib"]
+__all__ = ["insertion_sort"]
