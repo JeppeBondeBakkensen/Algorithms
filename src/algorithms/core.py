@@ -3,7 +3,7 @@ def insertion_sort(A: list, n: int) -> list:
     Time complexity: 𝚯(n^2)
 
     Args:
-        A (list): Array of numbers to sort
+        A (list): Input array
         n (int): Number of elements
 
     Returns:
@@ -33,7 +33,5 @@ def bubble_sort(A: list, n: int) -> list:
     for i in range(n - 1):
         for j in range(n - 1, 0, -1):
             if A[j] < A[j - 1]:
-                temp = A[j]
-                A[j - 1] = temp
-                A[j] = A[j - 1]
+                A[j], A[j - 1] = A[j - 1], A[j]
     return A

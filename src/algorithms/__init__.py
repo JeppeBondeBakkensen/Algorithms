@@ -1,3 +1,3 @@
-from .core import insertion_sort
+from .core import bubble_sort, insertion_sort
 
-__all__ = ["insertion_sort"]
+__all__ = ["bubble_sort", "insertion_sort"]
